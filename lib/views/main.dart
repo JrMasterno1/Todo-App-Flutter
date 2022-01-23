@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/PlanProvider.dart';
 
 import 'PlanScreen.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: PlanScreen(),
+      home: PlanProvider(child: PlanScreen()),
     );
   }
 }
