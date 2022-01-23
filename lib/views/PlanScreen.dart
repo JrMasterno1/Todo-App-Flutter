@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/PlanProvider.dart';
+import 'package:todo_app/controllers/plan_controller.dart';
 import 'package:todo_app/models/data_layer.dart';
 
 class PlanScreen extends StatefulWidget {
@@ -43,7 +44,8 @@ class _PlanScreenState extends State<PlanScreen> {
       child: Icon(Icons.add),
       onPressed: () {
         setState(() {
-          plan.tasks.add(Task());
+          final controller = PlanController();
+          controller.createNewTask(plan);
         });
         scrollController.animateTo(
           itemHeight * plan.tasks.length,
@@ -67,7 +69,8 @@ class _PlanScreenState extends State<PlanScreen> {
       key: ValueKey(task),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
-        plan.tasks.remove(task);
+        final controller = PlanController();
+        controller.deleteTask(plan, task);
         setState(() {
 
         });
