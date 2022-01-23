@@ -68,13 +68,23 @@ class _PlanCreatorScreenState extends State<PlanCreatorScreen> {
       itemCount: plans.length,
       itemBuilder: (context, index) {
         final plan = plans[index];
-        return ListTile(
-          title: Text(plan.name),
-          subtitle: Text(plan.completenessMessage),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => PlanScreen(plan: plan)
-            ));
+        return Dismissible(
+          key: ValueKey(plan),
+          direction: DismissDirection.endToStart,
+          child: ListTile(
+            title: Text(plan.name),
+            subtitle: Text(plan.completenessMessage),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => PlanScreen(plan: plan)
+              ));
+            },
+          ),
+          onDismissed: (_) {
+            PlanProvider.of(context).remove(plan);
+            setState(() {
+
+            });
           },
         );
       },

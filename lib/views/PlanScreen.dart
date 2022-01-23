@@ -63,31 +63,41 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
   Widget _buildTaskTile(Task task){
-    return ListTile(
-      leading: Builder(
-        builder: (context) {
-          return Checkbox(
-            value: task.complete,
-            onChanged: (selected) {
-              setState(() {
-                task.complete = selected!;
-              });
-              final controller = showBottomSheet(context: context, builder: _buildBottomSheet);
-              Future.delayed(Duration(seconds: 3)).then((value) {
-                controller.close();
-              });
-            },
-          );
-        }
-      ),
-      title: TextFormField(
-        initialValue: task.description,
+    return Dismissible(
+      key: ValueKey(task),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) {
+        plan.tasks.remove(task);
+        setState(() {
 
-        onFieldSubmitted: (text) {
-          setState(() {
-            task.description = text;
-          });
-        },
+        });
+      },
+      child: ListTile(
+        leading: Builder(
+          builder: (context) {
+            return Checkbox(
+              value: task.complete,
+              onChanged: (selected) {
+                setState(() {
+                  task.complete = selected!;
+                });
+                final controller = showBottomSheet(context: context, builder: _buildBottomSheet);
+                Future.delayed(Duration(seconds: 3)).then((value) {
+                  controller.close();
+                });
+              },
+            );
+          }
+        ),
+        title: TextFormField(
+          initialValue: task.description,
+
+          onFieldSubmitted: (text) {
+            setState(() {
+              task.description = text;
+            });
+          },
+        ),
       ),
     );
   }
