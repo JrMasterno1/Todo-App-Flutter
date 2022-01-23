@@ -4,13 +4,16 @@ import 'package:todo_app/PlanProvider.dart';
 import 'package:todo_app/models/data_layer.dart';
 
 class PlanScreen extends StatefulWidget {
-  const PlanScreen({Key? key}) : super(key: key);
+  final Plan plan;
+  const PlanScreen({Key? key, required this.plan }) : super(key: key);
 
   @override
   _PlanScreenState createState() => _PlanScreenState();
 }
 
 class _PlanScreenState extends State<PlanScreen> {
+  Plan get plan => widget.plan;
+
   final itemHeight = 50.0;
   late ScrollController scrollController;
   @override
@@ -36,7 +39,6 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
   Widget _buildAddTaskButton(){
-    final plan = PlanProvider.of(context);
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: () {
@@ -52,7 +54,6 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
   Widget _buildList(){
-    final plan = PlanProvider.of(context);
     return Scrollbar(
       child: ListView.builder(
         controller: scrollController,
@@ -79,8 +80,10 @@ class _PlanScreenState extends State<PlanScreen> {
           );
         }
       ),
-      title: TextField(
-        onChanged: (text) {
+      title: TextFormField(
+        initialValue: task.description,
+
+        onFieldSubmitted: (text) {
           setState(() {
             task.description = text;
           });
@@ -89,7 +92,6 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
   Widget _buildBottomSheet(BuildContext buildContext){
-    final plan = PlanProvider.of(context);
     return SafeArea(
       child: Container(
         color: Theme.of(context).cardColor,
